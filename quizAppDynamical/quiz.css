@@ -1,0 +1,132 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #b8c6ff;
+    background-image: linear-gradient(315deg, #b8c6db 50%, #f5f7f7 100%);
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    margin: 0
+}
+
+.quiz-container {
+    background-color: #fff;
+    box-shadow: 0 0 10px 2px rgba(100,100,100,0.1);
+    width: 600px;
+    overflow: hidden;
+    border-radius: 10px;
+    
+    /* margin: 10% 28% 0%; */
+}
+/* .quiz-footer {
+    background-color: #fff;
+    box-shadow: 0 0 10px 2px rgba(100,100,100,0.1);
+    width: 600px;
+    overflow: hidden;
+    border-radius: 10px;
+    margin: 0 28%;
+} */
+
+.logo {
+    margin: 5px;
+    width: 100%;
+    padding-left: 33%;
+    vertical-align: middle;
+}
+.logo img {
+    width: 150px;
+    height: 50px;
+    margin: 0%;
+}
+.heading{
+    background-color: rgba(197, 21, 21, 0.767);
+    color: white;
+    width: 100%;
+    text-align: center;
+}
+
+h2 {
+    font-family: Arial, Helvetica, sans-serif;
+    margin: 0%;
+    padding: 5px;
+}
+
+h3 {
+    font-family: Arial, Helvetica, sans-serif;
+    padding: 10px;
+    text-align: left;
+    margin: 0%;
+}
+.quiz-header {
+    height: 170px;
+}
+
+.quiz-header ul{
+    list-style-type: none;
+    padding: 5px;
+}
+
+.quiz-header ul li{
+    font-family: Arial, Helvetica, sans-serif;
+    font-size:20px;
+}
+
+ul li label,ul li input {
+    cursor: pointer;
+}
+
+#next {
+    background-color: #e60b038f;
+    color: white;
+    border: none;
+    width: 20%;
+    float: right;
+    margin: 5px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 25px;
+    padding: 15px;
+}
+
+#next:hover{
+    background-color: #cd440477;
+}
+#next:focus {
+    background-color: rgba(197, 21, 21, 0.767);
+}
+
+#score {
+    text-align:center;
+}
+
+#retaketest {
+    background-color: #e60b038f;
+    border-radius: 5px;
+    color: white;
+    border: none;
+    width: 40%;
+    font-size: 25px;
+    padding: 10px;
+    margin: auto;
+    margin-bottom: 5px;
+    cursor: pointer;
+    display: block;     
+}
+#retaketest:hover {
+    background-color: rgba(197, 21, 21, 0.767); 
+}
+
+#thankyou {
+    color: #e60b038f;
+    font-size: 25px;
+    padding: 9px;
+    text-align: center;
+    margin-bottom: 5px;
+    display: block;
+  
+}
+

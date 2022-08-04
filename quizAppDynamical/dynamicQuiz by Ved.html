@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="quiz.css">
+    </head>
+    <body>
+
+        <p id="demo"></p>
+
+        <script>
+            // import quizData from "quizData.js";
+            document.getElementById("demo").innerHTML = getOutput();
+			var answersArray;
+            function getOutput() {
+                document.getElementById("demo").style.display = "none";
+            
+                const quizData = [
+                    {
+                        "question": "Inside which HTML element do we put the JavaScript?",
+                        "options": ["script","JavaScript","js","scripting"], 
+                        "correct": "script"
+                    },
+                    {
+                        "question": "Who is making the Web standards?",
+                        "options": ["Microsoft","The world wide web consortium","Mozilla","Google"],
+                        "correct": "The world wide web consortium"
+                    }
+                ]
+                const body = document.querySelector("body");
+                const divContainer = document.createElement("div");
+                body.append(divContainer);
+                divContainer.setAttribute('class',"quiz-container");
+                divContainer.setAttribute('id',"quiz");
+                
+
+                const divHeader = document.createElement("div");
+                divContainer.append(divHeader);
+                divHeader.setAttribute('class',"header");
+                
+
+                const divLogo = document.createElement("div");
+                divHeader.append(divLogo);
+                divLogo.setAttribute('class',"logo");
+                
+
+                const imgLogo = document.createElement("img");
+                divLogo.append(imgLogo);
+                imgLogo.setAttribute('src',"gspannsvg.svg");
+                
+
+                const divHeading = document.createElement("div");
+                divHeader.append(divHeading);
+                divHeading.setAttribute('class',"heading");
+                
+
+                const heading = document.createElement("h2");
+                divHeading.appendChild(heading);
+                heading.innerHTML = "Web Development Quiz";
+
+                const divQuizHeader = document.createElement("div");
+                divContainer.append(divQuizHeader);
+                divQuizHeader.setAttribute('class',"quiz-header");
+
+                const question = document.createElement("h3");
+                divQuizHeader.appendChild(question);
+                question.innerHTML = "Question Text";
+
+                const ul = document.createElement("ul");
+				ul.id = "myList";
+                divQuizHeader.appendChild(ul);
+
+                var currentQuestion = 0;
+                var score = 0;
+
+                function loadQuiz() {
+                    // enableOptions();
+					ul.innerHTML = "";
+					
+                    disableNextbtn();
+                    
+                    question.innerText = (currentQuestion+1) + '. '+ quizData[currentQuestion].question ;
+                    
+                    for(var j=0;j< quizData[currentQuestion].options.length;j++) {
+                        const li = document.createElement("li");
+						ul.appendChild(li);
+						li.addEventListener('click',getMessage);
+						const input = document.createElement("input");
+                        li.appendChild(input);
+                        input.type = "radio";
+                        input.name = "answer";
+                        input.className = "answer";
+                        input.id = "a" + [j];
+                        input.value = quizData[currentQuestion].options[j];
+						
+
+                        const label = document.createElement("label");
+                        li.appendChild(label);
+                        label.setAttribute('for',"a" + [j]);
+                        label.setAttribute('id',"a_text" + [j]);
+                        label.innerText = quizData[currentQuestion].options[j];
+						
+						
+                        
+                        const br = document.createElement("span");
+                        label.appendChild(br);
+                        br.innerHTML = "<br>";
+
+                    }
+                    
+                }
+                
+                const divMessage = document.createElement("div");
+                divContainer.append(divMessage);
+                divMessage.setAttribute('class',"message");
+
+                const p = document.createElement("p");
+                divMessage.appendChild(p);
+                p.setAttribute('id',"message");
+                p.innerHTML = "&#8192";
+
+                const divFooter = document.createElement("div");
+                divContainer.append(divFooter);
+                divFooter.setAttribute('id',"quiz-next");
+
+                const next = document.createElement("button");
+                divFooter.appendChild(next);
+                next.setAttribute('id',"next");
+                next.innerHTML = "Next";
+
+                loadQuiz();
+
+                
+				
+
+                function getMessage() {
+                    disableOptions();
+                    
+                    const answer = getSelected();
+                    
+                    
+                    if(answer === quizData[currentQuestion].correct) {
+                        document.getElementById("message").innerHTML = "Correct";
+                        document.getElementById("message").style.color = "green";
+                        
+                    }
+                    else {
+                        document.getElementById("message").innerHTML = "Incorrect";
+                        document.getElementById("message").style.color = "orange";
+                    }
+                }   
+
+
+                function enableOptions() {
+                    document.querySelectorAll("li").disabled = false;
+                }
+
+                function disableOptions() {
+				
+                    if(document.getElementById("a0").checked == true) {
+                        document.getElementById("a1").disabled = true;
+                        document.getElementById("a2").disabled = true;
+                        document.getElementById("a3").disabled = true;
+                    }
+                    else if(document.getElementById("a1").checked == true) {
+                        document.getElementById("a0").disabled = true;  
+                        document.getElementById("a2").disabled = true;
+                        document.getElementById("a3").disabled = true;
+                    }
+                    else if(document.getElementById("a2").checked == true) {
+                        document.getElementById("a0").disabled = true;
+                        document.getElementById("a1").disabled = true;  
+                        document.getElementById("a3").disabled = true;
+                    }
+                    else if(document.getElementById("a3").checked == true) {
+                        document.getElementById("a0").disabled = true;
+                        document.getElementById("a1").disabled = true;
+                        document.getElementById("a2").disabled = true;
+                    }
+                }
+
+                function disableNextbtn() {
+                    document.getElementById("next").disabled = true;
+                    document.getElementById("next").style.backgroundColor = "#cd440477";
+                }
+                function enableNextbtn() {
+                    document.getElementById("next").disabled = false;
+                    document.getElementById("next").style.backgroundColor = "rgba(197, 21, 21, 0.767)";
+                }
+
+                function getSelected() {
+				
+					const answersArray = document.querySelectorAll(".answer");
+                    let answer;
+                    disableOptions();
+                    for(var i=0;i<quizData[currentQuestion].options.length;i++)
+                    {
+                        if(answersArray[i].checked) {
+                            enableNextbtn();
+                            // answer = answers[i].id; uses when we are given correct ans to id
+                            answer = quizData[currentQuestion].options[i];
+							
+                            
+                        } 
+                    }
+					
+                    return answer;
+                }
+
+                next.addEventListener('click', () => {
+					document.getElementById("message").innerHTML = "&nbsp";
+                    const answer = getSelected();
+                    if(answer === quizData[currentQuestion].correct) {
+                        score++;
+                    }
+                    currentQuestion++;
+                    if(currentQuestion < quizData.length) {
+                        loadQuiz();
+                    }
+                    else {
+                        getEndpage();
+                    }
+
+                })
+
+                function getEndpage() {
+                    const body = document.querySelector("body");
+                    const divContainer = document.createElement("div");
+                    body.append(divContainer);
+                    divContainer.setAttribute('class',"quiz-container");
+                    divContainer.setAttribute('id',"quiz");
+
+                    document.getElementById("quiz").style.display = "none";
+                    document.getElementById("quiz").style.height = "auto";
+
+                    const h2 = document.createElement("h2");
+                    const button = document.createElement("button");
+                    const p =document.createElement("p");
+                    divContainer.appendChild(h2);
+                    divContainer.appendChild(button);
+                    divContainer.appendChild(p);
+
+                    h2.setAttribute('id',"score");
+                    button.setAttribute('id',"retaketest");
+                    p.setAttribute('id',"thankyou");
+
+                    button.onclick = function() {
+                        location.reload();
+                    };
+
+                    var x= 'You answered ' + score + '/' + quizData.length + ' questions correctly';
+                    document.getElementById("score").innerHTML = x;
+                    button.innerHTML = "Retake Test";
+                    p.innerHTML = "Thank You &#127881";
+                }
+
+            }
+
+        </script>
+        
+    </body>
+</html>

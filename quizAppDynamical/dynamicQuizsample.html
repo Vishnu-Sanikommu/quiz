@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="quiz.css">
+    </head>
+    <body>
+        
+        <p id="demo"></p>
+
+        <script>
+            document.getElementById("demo").innerHTML = getOutput();
+            function getOutput() {
+                document.getElementById("demo").style.display = "none";
+            
+                const quizData = [
+                    {
+                        "question": "Inside which HTML element do we put the JavaScript?",
+                        "options": ["script","JavaScript","js","scripting"], 
+                        "correct": "script"
+                    },
+                    {
+                        "question": "Inside which HTML element do we put the CSS?",
+                        "options": ["script","JavaScript","js","style"],
+                        "correct": "style"
+                    },
+                    {
+                        "question": "What is the attribute used to set the margin?",
+                        "options": ["padding","margin","width","page-margin"],
+                        "correct": "margin"
+                    },
+                    {
+                        "question": "What does CSS stands for?",
+                        "options": ["Central Style Sheets","Cascading Style Sheets",
+                                    "Cascading Simple Sheets","Cars SUVs Sailboats"],
+                        "correct": "Cascading Style Sheets"
+                    },
+                    {
+                        "question": "How do you write 'Hello World' in an alert box?",
+                        "options": ["msgBox('Hello World');","alertBox('Hello World');",
+                                    "msg('Hello World');","alert('Hello World');"],
+                        "correct": "alert('Hello World');"
+                    },
+                    {
+                        "question": "HTML stands for",
+                        "options": ["Hyper Tension Markup Language","Hyper Text Markup Language",
+                                    "Hyper Tension Markable Language","Hyper Text Markable Language"],
+                        "correct": "Hyper Text Markup Language"
+                    },
+                    {
+                        "question": "Which HTML attribute is used to define inline styles",
+                        "options": ["style","styles","styling","class"],
+                        "correct": "style"
+                    },
+                    {
+                        "question": "Which CSS property is used to change the text color of an element?",
+                        "options": ["color","font-color","fgcolor","text-color"],
+                        "correct": "color"
+                    },
+                    {
+                        "question": "Which CSS property controls the text size?",
+                        "options": ["text-size","font-size","text-font","font-style"],
+                        "correct": "font-size"
+                    },
+                    {
+                        "question": "Who is making the Web standards?",
+                        "options": ["Microsoft","The world wide web consortium","Mozilla","Google"],
+                        "correct": "The world wide web consortium"
+                    }
+                ]
+
+
+                const body = document.querySelector("body");
+                const divContainer = document.createElement("div");
+                body.append(divContainer);
+                divContainer.setAttribute('class',"quiz-container");
+                divContainer.setAttribute('id',"quiz");
+                
+                const divHeader = document.createElement("div");
+                divContainer.append(divHeader);
+                divHeader.setAttribute('class',"header");
+                
+                const divLogo = document.createElement("div");
+                divHeader.append(divLogo);
+                divLogo.setAttribute('class',"logo");
+
+                const imgLogo = document.createElement("img");
+                divLogo.append(imgLogo);
+                imgLogo.setAttribute('src',"gspannsvg.svg");        
+
+                const divHeading = document.createElement("div");
+                divHeader.append(divHeading);
+                divHeading.setAttribute('class',"heading");
+
+                const heading = document.createElement("h2");
+                divHeading.appendChild(heading);
+                heading.innerHTML = "Web Development Quiz";
+
+                const divQuizHeader = document.createElement("div");
+                divContainer.append(divQuizHeader);
+                divQuizHeader.setAttribute('class',"quiz-header");
+
+                const questions = document.createElement("h3");
+                divQuizHeader.appendChild(questions);
+                questions.setAttribute("id","question");
+                questions.innerHTML = "Question Text";
+
+                const ul = document.createElement("ul");
+                divQuizHeader.appendChild(ul);
+
+                var char = 'a';
+                
+                for(var j=0;j< 4;j++) {
+                    const li = document.createElement("li");
+                    ul.appendChild(li);
+                    li.addEventListener('click',getMessage);
+                    li.setAttribute('class',"list");
+                    const input = document.createElement("input");
+                    li.appendChild(input);
+                    input.type = "radio";
+                    input.name = "answer";
+                    input.className = "answer";
+                    input.id = String.fromCharCode(char.charCodeAt(0) + (j+0));
+
+
+                    const label = document.createElement("label");
+                    li.appendChild(label);
+                    label.setAttribute('for',String.fromCharCode(char.charCodeAt(0) + (j+0)));
+                    label.setAttribute('id',String.fromCharCode(char.charCodeAt(0) + (j+0))+"_text");
+                    label.innerText = "option"+(j+1);
+
+
+                }
+ 
+                const divMessage = document.createElement("div");
+                divContainer.append(divMessage);
+                divMessage.setAttribute('class',"message");
+
+                const p = document.createElement("p");
+                divMessage.appendChild(p);
+                p.setAttribute('id',"message");
+                p.innerHTML = "&#8192";
+
+                const divFooter = document.createElement("div");
+                divContainer.append(divFooter);
+                divFooter.setAttribute('id',"quiz-next");
+
+                const next = document.createElement("button");
+                divFooter.appendChild(next);
+                next.setAttribute('id',"next");
+                next.innerHTML = "Next";
+
+                const answersArray = document.querySelectorAll(".answer");
+                const question = document.getElementById('question');
+                const a_text = document.getElementById('a_text');
+                const b_text = document.getElementById('b_text');
+                const c_text = document.getElementById('c_text');
+                const d_text = document.getElementById('d_text');
+                const nextbtn = document.getElementById('next');
+
+                var currentQuestion = 0;
+                var score = 0;
+
+                function loadQuiz() {
+                    deselectAnswers();
+                    enableOptions();
+                    disableNextbtn();
+
+                    const currentQuizData = quizData[currentQuestion];
+                    question.innerText = currentQuestion+1 +". "+currentQuizData.question;
+                    question.style.fontFamily = "Verdana, Geneva, Tahoma, sans-serif";
+                    a_text.innerText = currentQuizData.options[0];
+                    b_text.innerText = currentQuizData.options[1];
+                    c_text.innerText = currentQuizData.options[2];
+                    d_text.innerText = currentQuizData.options[3];
+                    
+                }
+
+                loadQuiz();
+
+                function deselectAnswers() {
+                    answersArray.forEach(answerEl => answerEl.checked = false);
+                    document.getElementById("message").innerHTML = "&#8192;";
+                }
+
+                function getMessage() {
+                    
+                    const answer = getSelected();
+                    console.log(answer);
+                    
+                    if(answer === quizData[currentQuestion].correct) {
+                        document.getElementById("message").innerHTML = "Correct";
+                        document.getElementById("message").style.color = "green";
+                        
+                    }
+                    else {
+                        document.getElementById("message").innerHTML = "Incorrect";
+                        document.getElementById("message").style.color = "orange";
+                    }
+                }
+
+                function getSelected() {
+                    let answer;
+                    disableOptions();
+                    for(var i=0;i<quizData[currentQuestion].options.length;i++)
+                    {
+                        if(answersArray[i].checked) {
+                            enableNextbtn();
+                            // answer = answers[i].id; uses when we are given correct ans to id
+                            answer = quizData[currentQuestion].options[i];
+                            
+                        } 
+                    }
+                    return answer;
+                }   
+
+
+                function enableOptions() {
+                    document.getElementById("a").disabled = false;
+                    document.getElementById("b").disabled = false;
+                    document.getElementById("c").disabled = false;
+                    document.getElementById("d").disabled = false;
+                }
+
+                function disableOptions() {
+                    if(document.getElementById("a").checked == true) {
+                        document.getElementById("b").disabled = true;
+                        document.getElementById("c").disabled = true;
+                        document.getElementById("d").disabled = true;
+                    }
+                    else if(document.getElementById("b").checked == true) {
+                        document.getElementById("a").disabled = true;  
+                        document.getElementById("c").disabled = true;
+                        document.getElementById("d").disabled = true;
+                    }
+                    else if(document.getElementById("c").checked == true) {
+                        document.getElementById("a").disabled = true;
+                        document.getElementById("b").disabled = true;  
+                        document.getElementById("d").disabled = true;
+                    }
+                    else if(document.getElementById("d").checked == true) {
+                        document.getElementById("a").disabled = true;
+                        document.getElementById("b").disabled = true;
+                        document.getElementById("c").disabled = true;
+                    }
+                }
+
+                function disableNextbtn() {
+                    document.getElementById("next").disabled = true;
+                    document.getElementById("next").style.backgroundColor = "#cd440477";
+                }
+                function enableNextbtn() {
+                    document.getElementById("next").disabled = false;
+                    document.getElementById("next").style.backgroundColor = "rgba(197, 21, 21, 0.767)";
+                }
+
+                
+
+                nextbtn.addEventListener('click', () => {
+
+                    const answer = getSelected();
+                    if(answer === quizData[currentQuestion].correct) {
+                        score++;
+                    }
+                    currentQuestion++;
+                    if(currentQuestion < quizData.length) {
+                        loadQuiz();
+                    }
+                    else {
+                        getEndpage();
+                    }
+
+                })
+
+                function getEndpage() {
+                    const body = document.querySelector("body");
+                    const divContainer = document.createElement("div");
+                    body.append(divContainer);
+                    divContainer.setAttribute('class',"quiz-container");
+                    divContainer.setAttribute('id',"quiz");
+
+                    document.getElementById("quiz").style.display = "none";
+                    document.getElementById("quiz").style.height = "auto";
+
+                    const h2 = document.createElement("h2");
+                    const button = document.createElement("button");
+                    const p =document.createElement("p");
+                    divContainer.appendChild(h2);
+                    divContainer.appendChild(button);
+                    divContainer.appendChild(p);
+
+                    h2.setAttribute('id',"score");
+                    button.setAttribute('id',"retaketest");
+                    p.setAttribute('id',"thankyou");
+
+                    button.onclick = function() {
+                        location.reload();
+                    };
+
+                    var x= 'You answered ' + score + '/' + quizData.length + ' questions correctly';
+                    document.getElementById("score").innerHTML = x;
+                    button.innerHTML = "Retake Test";
+                    p.innerHTML = "Thank You &#127881";
+                }
+
+            }
+
+        </script>
+        
+    </body>
+</html>

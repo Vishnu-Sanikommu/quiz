@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Search Engine</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+	<link rel="stylesheet" href="style.css">
+</head>
+<body>
+	<script type="text/javascript">
+		var employees = [
+			{
+				"image" : "http://webmeup.com/upload/blog/lead-image-105.png",
+				"empID" : "2611",
+				"employeeName" : "Venky",
+				"designation" : "software engineer trainee",
+				"skills" : "Java, HTML, CSS, BootStrap"
+			},
+			{
+				"image" : "https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8aHVtYW58ZW58MHx8MHx8&w=1000&q=80",
+				"empID" : "2621",
+				"employeeName" : "Prem",
+				"designation" : "Technical lead",
+				"skills" : "Java, Spring framework, AEM, TeamSite"
+			},
+			{
+				"image" : "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
+				"empID" : "2631",
+				"employeeName" : "Ram",
+				"designation" : "senior software engineer",
+				"skills" : "HTML, CSS, BootStrap, JavaSript, jQuery, AEM"
+			},
+			{
+				"image" : "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8cHJvZmlsZXxlbnwwfHwwfHw%3D&w=1000&q=80",
+				"empID" : "2641",
+				"employeeName" : "Sweety",
+				"designation" : "Asst. Manager",
+				"skills" : "Java, HTML, CSS, BootStrap, AEM, SpringBoot, Automation testing"
+			},
+			{
+				"image" : "https://www.unigreet.com/wp-content/uploads/2020/04/Sweet-girl-dp.jpg",
+				"empID" : "2651",
+				"employeeName" : "Lucky",
+				"designation" : "software engineer",
+				"skills" : "Java, JavaScript, React.js, UI developer"
+			}
+		]
+		const body = document.querySelector("body");
+        var divContainer = document.createElement("div");
+        divContainer.setAttribute("id","container");
+        body.append(divContainer);
+
+		const divHeader = document.createElement("div");
+		divHeader.setAttribute("id","header");
+		divContainer.append(divHeader);
+
+		const divLogo = document.createElement("div");
+		divLogo.setAttribute("id","logo-container");
+		divHeader.append(divLogo);
+
+		const logo = document.createElement("img");
+		logo.setAttribute("src","gspannsvg.svg");
+		logo.setAttribute("id","logo-img");
+		divLogo.append(logo);
+		
+        var heading = document.createElement("h2");
+		heading.setAttribute("id","heading");
+        heading.innerText = "Employee Details";
+        divHeader.append(heading);
+
+		var br = document.createElement("br");
+		heading.appendChild(br);
+
+		var input = document.createElement("input");
+		divContainer.append(input);
+		input.type = "text";
+		input.id = "query";
+		input.name = "query";
+		input.placeholder = "Search here";
+		var divResult = document.createElement("div");
+		divContainer.append(divResult);
+		divResult.setAttribute("id","results");
+		
+		$(document).ready(function()
+		{
+			
+			$("#query").on('input', function()
+			{
+				let queryString = $(this).val();
+				if(queryString)
+				{
+					queryString = queryString.toLowerCase();
+					let ul = "";
+					let results = employees.filter(function(record)
+						{
+						return (record.empID.indexOf(queryString) != -1 ) || (record.employeeName.toLowerCase().indexOf(queryString) != -1) || 
+						(record.designation.toLowerCase().indexOf(queryString) != -1 || record.skills.toLowerCase().indexOf(queryString) != -1);
+					})
+					console.log(results); 
+					for(let i=0;i<results.length;i++)
+						{
+						let li = "<div id='result-section'><div id='img-container'><img src="+ 
+							results[i].image +"></div><div id='details'><strong>EMPID:</strong> " + 
+							results[i].empID + "<br><b>NAME: </b>" + results[i].employeeName +"<br><b>DESIGNATION:</b> " + 
+							results[i].designation + "<br><b>SKILLS:</b> " + results[i].skills+"</div></div>";
+						ul += li;
+					}
+					if(!results.length)
+						{
+						ul += "No results";
+					}
+
+					// ul += "</div>";
+
+					$("#results").html(ul);
+				}
+				else
+				{
+					$("#results").html("");
+				}
+			});
+		});
+	</script>
+</body>
+</html>

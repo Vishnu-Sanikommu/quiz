@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="quiz.css">
+        <title>Quiz Application</title>
+    </head>
+    <body>
+        <div class="quiz-container" id="quiz">
+            <div class="header">
+                <div class="logo">
+                    <img src="gspannsvg.svg" alt="GSPANN LOGO">
+                </div>
+                <div class="heading">
+                    <h2>Web Development Quiz</h2>
+                </div>
+            </div>    
+            <div class="quiz-header">
+                <h3 id="question">Question text</h3>
+                <ul>
+                    <li onclick="getMessage()">
+                        <input type="radio" name="answer" id="a" class="answer">
+                        <label for="a" id="a_text" >Answer</label>
+                    </li>
+                    <li onclick="getMessage()">
+                        <input type="radio" name="answer" id="b" class="answer">
+                        <label for="b" id="b_text">Answer</label>
+                    </li>
+                    <li onclick="getMessage()">
+                        <input type="radio" name="answer" id="c" class="answer">
+                        <label for="c" id="c_text">Answer</label>
+                    </li>
+                    <li onclick="getMessage()">
+                        <input type="radio" name="answer" id="d" class="answer">
+                        <label for="d" id="d_text">Answer</label>
+                    </li>
+                </ul>
+                
+            </div>
+            <div class="message" style="display: block;">
+                <p id="message">&#8194;</p>
+            </div>
+
+        </div>
+        
+        <div class="quiz-footer" id="quiz-next">
+            <button id="next">Next</button>
+        </div>
+
+        <script src="quiz.js"></script>
+    </body>
+</html>
